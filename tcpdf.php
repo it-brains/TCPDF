@@ -2970,7 +2970,7 @@ class TCPDF {
 
 	/**
 	 * Whether to allow local file path in image html tags, when prefixed with file://
-	 * 
+	 *
 	 * @param bool $allowLocalFiles true, when local files should be allowed. Otherwise false.
 	 * @public
 	 * @since 6.4
@@ -13239,7 +13239,14 @@ class TCPDF {
 		// get annotation data
 		$popt = TCPDF_STATIC::getAnnotOptFromJSProp($prop, $this->spot_colors, $this->rtl);
 		$this->annotation_fonts[$this->CurrentFont['fontkey']] = $this->CurrentFont['i'];
+        $oldColor = $this->TextColor;
+
+        if(isset($prop['textColor'])) {
+            $this->SetTextColorArray($prop['textColor']);
+        }
+
 		$fontstyle = sprintf('/F%d %F Tf %s', $this->CurrentFont['i'], $this->FontSizePt, $this->TextColor);
+
 		$popt['da'] = $fontstyle;
 		// build appearance stream
 		$popt['ap'] = array();
@@ -13252,6 +13259,11 @@ class TCPDF {
 			'T' => array('width' => $bw, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(231)),
 			'B' => array('width' => $bw, 'cap' => 'square', 'join' => 'miter', 'dash' => 0, 'color' => array(51)));
 		$this->SetFillColor(204);
+
+		if(isset($prop['fillColor'])) {
+            $this->SetFillColor($prop['fillColor']);
+        }
+
 		$this->Cell($w, $h, $caption, $border, 0, 'C', true, '', 1, false, 'T', 'M');
 		$this->endTemplate();
 		--$this->n;
@@ -13365,7 +13377,10 @@ class TCPDF {
 			}
 		}
 		$this->Annotation($x, $y, $w, $h, $name, $opt, 0);
-		if ($this->rtl) {
+
+        $this->SetTextColor($oldColor);
+
+        if ($this->rtl) {
 			$this->x -= $w;
 		} else {
 			$this->x += $w;
