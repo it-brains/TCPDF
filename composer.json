@@ -1,6 +1,7 @@
 {
     "name": "it-brains/tcpdf",
     "type": "library",
+    "version": "1.0",
     "keywords": [
         "PDF",
         "tcpdf",
