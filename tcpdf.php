@@ -13261,7 +13261,7 @@ class TCPDF {
 		$this->SetFillColor(204);
 
 		if(isset($prop['fillColor'])) {
-            $this->SetFillColor($prop['fillColor']);
+            $this->SetFillColorArray($prop['fillColor']);
         }
 
 		$this->Cell($w, $h, $caption, $border, 0, 'C', true, '', 1, false, 'T', 'M');
